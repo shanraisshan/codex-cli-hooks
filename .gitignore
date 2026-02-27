@@ -1,0 +1,6 @@
+.DS_Store
+.codex/hooks/config/hooks-config.local.json
+.codex/hooks/logs/hooks-log.jsonl
+__pycache__/
+*.pyc
+.claude
