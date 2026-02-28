@@ -1,1 +1,0 @@
-notify = ["python3", ".codex/hooks/scripts/hooks.py"]
