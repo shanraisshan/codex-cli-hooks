@@ -1,5 +1,5 @@
 # Codex CLI Voice Hooks
-[![Hooks](https://img.shields.io/badge/supports-1%20hook-white?style=flat&labelColor=555)](.codex/hooks/HOOKS-README.md) [![Version](https://img.shields.io/badge/updated%20with%20Codex%20CLI-v0.106.0%20(Feb%2027%2C%202026)-white?style=flat&labelColor=555)](https://github.com/openai/codex/releases)
+[![Hooks](https://img.shields.io/badge/supports-1%20hook-white?style=flat&labelColor=555)](.codex/hooks/HOOKS-README.md) [![Version](https://img.shields.io/badge/updated%20with%20Codex%20CLI-v0.106.0%20(Feb%2028%2C%202026%2011%3A32%20AM%20PKT)-white?style=flat&labelColor=555)](https://github.com/openai/codex/releases)
 
 <p align="center">
   <img src="!/codex-speaking.svg" alt="Codex CLI mascot speaking" width="176" height="158">
