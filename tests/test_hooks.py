@@ -34,16 +34,16 @@ class TestParseArgs(unittest.TestCase):
         self.assertEqual(input_data, {"type": "agent-turn-complete"})
 
     def test_session_start_hook_flag(self):
-        """New hooks.json: --hook session-start."""
-        event_type, input_data = hooks.parse_args(["--hook", "session-start"])
-        self.assertEqual(event_type, "session-start")
-        self.assertEqual(input_data, {"type": "session-start"})
+        """New hooks.json: --hook SessionStart."""
+        event_type, input_data = hooks.parse_args(["--hook", "SessionStart"])
+        self.assertEqual(event_type, "SessionStart")
+        self.assertEqual(input_data, {"type": "SessionStart"})
 
-    def test_session_stop_hook_flag(self):
-        """New hooks.json: --hook session-stop."""
-        event_type, input_data = hooks.parse_args(["--hook", "session-stop"])
-        self.assertEqual(event_type, "session-stop")
-        self.assertEqual(input_data, {"type": "session-stop"})
+    def test_stop_hook_flag(self):
+        """New hooks.json: --hook Stop."""
+        event_type, input_data = hooks.parse_args(["--hook", "Stop"])
+        self.assertEqual(event_type, "Stop")
+        self.assertEqual(input_data, {"type": "Stop"})
 
     def test_hook_flag_missing_value(self):
         """--hook without a value should return None."""
@@ -65,10 +65,10 @@ class TestHookSoundMap(unittest.TestCase):
         self.assertIn("agent-turn-complete", hooks.HOOK_SOUND_MAP)
 
     def test_session_start_mapping(self):
-        self.assertIn("session-start", hooks.HOOK_SOUND_MAP)
+        self.assertIn("SessionStart", hooks.HOOK_SOUND_MAP)
 
     def test_session_stop_mapping(self):
-        self.assertIn("session-stop", hooks.HOOK_SOUND_MAP)
+        self.assertIn("Stop", hooks.HOOK_SOUND_MAP)
 
     def test_unknown_event_no_mapping(self):
         self.assertNotIn("unknown-event", hooks.HOOK_SOUND_MAP)
@@ -81,10 +81,10 @@ class TestHookConfigMap(unittest.TestCase):
         self.assertEqual(hooks.HOOK_CONFIG_MAP["agent-turn-complete"], "disableNotifyHook")
 
     def test_session_start_config_key(self):
-        self.assertEqual(hooks.HOOK_CONFIG_MAP["session-start"], "disableSessionStartHook")
+        self.assertEqual(hooks.HOOK_CONFIG_MAP["SessionStart"], "disableSessionStartHook")
 
     def test_session_stop_config_key(self):
-        self.assertEqual(hooks.HOOK_CONFIG_MAP["session-stop"], "disableStopHook")
+        self.assertEqual(hooks.HOOK_CONFIG_MAP["Stop"], "disableStopHook")
 
 
 class TestIsHookDisabled(unittest.TestCase):
@@ -100,8 +100,8 @@ class TestIsHookDisabled(unittest.TestCase):
     def test_hook_enabled_by_default(self, mock_load):
         mock_load.return_value = (None, None)
         self.assertFalse(hooks.is_hook_disabled("agent-turn-complete"))
-        self.assertFalse(hooks.is_hook_disabled("session-start"))
-        self.assertFalse(hooks.is_hook_disabled("session-stop"))
+        self.assertFalse(hooks.is_hook_disabled("SessionStart"))
+        self.assertFalse(hooks.is_hook_disabled("Stop"))
 
     @patch("hooks.load_config")
     def test_notify_hook_disabled_in_default_config(self, mock_load):
@@ -111,12 +111,12 @@ class TestIsHookDisabled(unittest.TestCase):
     @patch("hooks.load_config")
     def test_session_start_disabled_in_default_config(self, mock_load):
         mock_load.return_value = (None, {"disableSessionStartHook": True})
-        self.assertTrue(hooks.is_hook_disabled("session-start"))
+        self.assertTrue(hooks.is_hook_disabled("SessionStart"))
 
     @patch("hooks.load_config")
     def test_session_stop_disabled_in_default_config(self, mock_load):
         mock_load.return_value = (None, {"disableStopHook": True})
-        self.assertTrue(hooks.is_hook_disabled("session-stop"))
+        self.assertTrue(hooks.is_hook_disabled("Stop"))
 
     @patch("hooks.load_config")
     def test_local_config_overrides_default(self, mock_load):
@@ -132,7 +132,7 @@ class TestIsHookDisabled(unittest.TestCase):
             {"disableSessionStartHook": False},
             {"disableSessionStartHook": True},
         )
-        self.assertFalse(hooks.is_hook_disabled("session-start"))
+        self.assertFalse(hooks.is_hook_disabled("SessionStart"))
 
 
 class TestIsLoggingDisabled(unittest.TestCase):
@@ -152,23 +152,9 @@ class TestIsLoggingDisabled(unittest.TestCase):
 class TestGetSessionContext(unittest.TestCase):
     """Test SessionStart context generation."""
 
-    @patch("hooks.subprocess.run")
-    def test_context_includes_date(self, mock_run):
-        mock_run.return_value = MagicMock(returncode=1, stdout="", stderr="")
+    def test_context_returns_hooks_context_run(self):
         context = hooks.get_session_context()
-        self.assertIn("Date:", context)
-
-    @patch("hooks.subprocess.run")
-    def test_context_includes_git_branch(self, mock_run):
-        mock_run.return_value = MagicMock(returncode=0, stdout="main\n")
-        context = hooks.get_session_context()
-        self.assertIn("Git branch: main", context)
-
-    @patch("hooks.subprocess.run")
-    def test_context_includes_working_directory(self, mock_run):
-        mock_run.return_value = MagicMock(returncode=1, stdout="", stderr="")
-        context = hooks.get_session_context()
-        self.assertIn("Working directory:", context)
+        self.assertEqual(context, "hooks context: run")
 
 
 class TestGetAudioPlayer(unittest.TestCase):
@@ -222,10 +208,10 @@ class TestLogHookData(unittest.TestCase):
                     with open(log_path, "a", encoding="utf-8") as f:
                         f.write(json.dumps(hook_data, ensure_ascii=False, indent=2) + "\n")
 
-                patched_log({"type": "session-start"})
+                patched_log({"type": "SessionStart"})
                 self.assertTrue(log_path.exists())
                 content = log_path.read_text()
-                self.assertIn("session-start", content)
+                self.assertIn("SessionStart", content)
 
 
 class TestMainIntegration(unittest.TestCase):
@@ -248,7 +234,7 @@ class TestMainIntegration(unittest.TestCase):
     def test_session_start_outputs_context_and_plays_sound(
         self, mock_context, mock_log, mock_disabled, mock_play
     ):
-        with patch("sys.argv", ["hooks.py", "--hook", "session-start"]):
+        with patch("sys.argv", ["hooks.py", "--hook", "SessionStart"]):
             with self.assertRaises(SystemExit) as ctx:
                 hooks.main()
             self.assertEqual(ctx.exception.code, 0)
@@ -259,7 +245,7 @@ class TestMainIntegration(unittest.TestCase):
     @patch("hooks.is_hook_disabled", return_value=False)
     @patch("hooks.log_hook_data")
     def test_session_stop_plays_sound(self, mock_log, mock_disabled, mock_play):
-        with patch("sys.argv", ["hooks.py", "--hook", "session-stop"]):
+        with patch("sys.argv", ["hooks.py", "--hook", "Stop"]):
             with self.assertRaises(SystemExit) as ctx:
                 hooks.main()
             self.assertEqual(ctx.exception.code, 0)
@@ -269,7 +255,7 @@ class TestMainIntegration(unittest.TestCase):
     @patch("hooks.is_hook_disabled", return_value=True)
     @patch("hooks.log_hook_data")
     def test_disabled_hook_skips_sound(self, mock_log, mock_disabled, mock_play):
-        with patch("sys.argv", ["hooks.py", "--hook", "session-start"]):
+        with patch("sys.argv", ["hooks.py", "--hook", "SessionStart"]):
             with self.assertRaises(SystemExit) as ctx:
                 hooks.main()
             self.assertEqual(ctx.exception.code, 0)

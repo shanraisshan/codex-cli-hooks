@@ -5,12 +5,12 @@ Codex CLI Hook Handler
 This script handles hooks from Codex CLI and plays notification sounds.
 Codex CLI supports 3 hooks:
   1. notify (event: agent-turn-complete) - via config.toml
-  2. SessionStart (event: session-start) - via hooks.json (v0.114.0+)
-  3. Stop (event: session-stop) - via hooks.json (v0.114.0+)
+  2. SessionStart - via hooks.json (v0.114.0+)
+  3. Stop - via hooks.json (v0.114.0+)
 
 Input:
   - notify hook: JSON payload passed as CLI argument (sys.argv[1])
-  - SessionStart/Stop hooks: --hook <event-type> flag
+  - SessionStart/Stop hooks: --hook <hook-name> flag
 """
 
 import sys
@@ -30,16 +30,17 @@ except ImportError:
 # Sound name -> resolves to sounds/<name>/<name>.{mp3|wav}
 HOOK_SOUND_MAP = {
     "agent-turn-complete": "notification",
-    "session-start": "session-start",
-    "session-stop": "stop",
+    "SessionStart": "session-start",
+    "Stop": "stop",
 }
 
 # ===== HOOK EVENT TO CONFIG KEY MAPPING =====
 HOOK_CONFIG_MAP = {
     "agent-turn-complete": "disableNotifyHook",
-    "session-start": "disableSessionStartHook",
-    "session-stop": "disableStopHook",
+    "SessionStart": "disableSessionStartHook",
+    "Stop": "disableStopHook",
 }
+
 
 
 def get_audio_player():
@@ -207,7 +208,7 @@ def is_hook_disabled(event_name):
     Uses fallback logic: hooks-config.local.json -> hooks-config.json
 
     Args:
-        event_name: The event name (e.g., "agent-turn-complete", "session-start", "session-stop")
+        event_name: The event name (e.g., "agent-turn-complete", "SessionStart", "Stop")
 
     Returns:
         True if the hook is disabled, False otherwise
@@ -231,11 +232,19 @@ def log_hook_data(hook_data):
     """
     Log the hook_data to hooks-log.jsonl for debugging/auditing.
     Log file is stored at .codex/hooks/logs/hooks-log.jsonl
+
+    Logs 3 keys: hook, timestamp, last_assistant_message
     """
     if is_logging_disabled():
         return
 
     try:
+        log_entry = {
+            "hook": hook_data.get("type", ""),
+            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "last_assistant_message": hook_data.get("last_assistant_message", ""),
+        }
+
         script_dir = Path(__file__).parent
         hooks_dir = script_dir.parent
         logs_dir = hooks_dir / "logs"
@@ -244,7 +253,7 @@ def log_hook_data(hook_data):
 
         log_path = logs_dir / "hooks-log.jsonl"
         with open(log_path, "a", encoding="utf-8") as log_file:
-            log_file.write(json.dumps(hook_data, ensure_ascii=False, indent=2) + "\n")
+            log_file.write(json.dumps(log_entry, ensure_ascii=False, indent=2) + "\n")
     except Exception as e:
         print(f"Failed to log hook_data: {e}", file=sys.stderr)
 
@@ -257,29 +266,7 @@ def get_session_context():
     Returns:
         String of context information
     """
-    lines = []
-
-    # Current date/time
-    lines.append(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-
-    # Git branch
-    try:
-        result = subprocess.run(
-            ["git", "rev-parse", "--abbrev-ref", "HEAD"],
-            capture_output=True, text=True, timeout=5
-        )
-        if result.returncode == 0:
-            lines.append(f"Git branch: {result.stdout.strip()}")
-    except Exception:
-        pass
-
-    # Working directory
-    try:
-        lines.append(f"Working directory: {Path.cwd()}")
-    except Exception:
-        pass
-
-    return "\n".join(lines)
+    return "hooks context: run"
 
 
 def parse_args(argv):
@@ -287,7 +274,7 @@ def parse_args(argv):
     Parse command line arguments.
     Supports two calling conventions:
       1. notify hook (config.toml): hooks.py '{"type":"agent-turn-complete"}'
-      2. SessionStart/Stop hooks (hooks.json): hooks.py --hook session-start
+      2. SessionStart/Stop hooks (hooks.json): hooks.py --hook SessionStart
 
     Args:
         argv: sys.argv[1:] list
@@ -348,7 +335,7 @@ def main():
             sys.exit(0)
 
         # SessionStart: Output context to stdout (feeds into model context)
-        if event_type == "session-start":
+        if event_type == "SessionStart":
             context = get_session_context()
             if context:
                 print(context)

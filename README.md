@@ -35,11 +35,14 @@ See [HOOKS-README.md](.codex/hooks/HOOKS-README.md) for full documentation on co
 
 ![How to Use](!/how-to-use.svg)
 
-After [installing](#installation) the hooks, start Codex CLI with the hooks engine <img src="!/beta.svg" alt="Beta" height="16"> enabled:
+After [installing](#installation) the hooks:
 
+**Step 1.** Start Codex CLI with the hooks engine <img src="!/beta.svg" alt="Beta" height="16"> enabled:
 ```bash
 codex -c features.codex_hooks=true
 ```
+
+**Step 2.** Send a prompt (e.g., `Hi`) — you'll hear a sound on session start, agent response, and session stop.
 
 ## Links
 
