@@ -22,7 +22,7 @@ Open terminal in your project directory and run the following commands:
 **PowerShell:**
 ```powershell
 New-Item -ItemType Directory -Force -Path .codex\hooks
-git clone https://github.com/shanraisshan/codex-cli-voice-hooks.git temp-hooks
+git clone https://github.com/shanraisshan/codex-cli-hooks.git temp-hooks
 Copy-Item -Recurse -Force temp-hooks\.codex\hooks\* .codex\hooks\
 Copy-Item temp-hooks\install\hooks-windows.json .codex\hooks.json
 Remove-Item -Recurse -Force temp-hooks
@@ -31,7 +31,7 @@ Remove-Item -Recurse -Force temp-hooks
 **Command Prompt:**
 ```cmd
 if not exist .codex\hooks mkdir .codex\hooks
-git clone https://github.com/shanraisshan/codex-cli-voice-hooks.git temp-hooks
+git clone https://github.com/shanraisshan/codex-cli-hooks.git temp-hooks
 xcopy /E /I /Y temp-hooks\.codex\hooks\* .codex\hooks\
 copy temp-hooks\install\hooks-windows.json .codex\hooks.json
 rmdir /S /Q temp-hooks

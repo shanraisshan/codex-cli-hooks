@@ -1,4 +1,4 @@
-# Codex CLI Voice Hooks
+# Codex CLI Hooks
 [![Hooks](https://img.shields.io/badge/supports-3%20hooks-white?style=flat&labelColor=555)](.codex/hooks/HOOKS-README.md) [![Version](https://img.shields.io/badge/updated%20with%20Codex%20CLI-v0.115.0%20(Mar%2017%2C%202026%206%3A30%20PM%20PKT)-white?style=flat&labelColor=555)](https://github.com/openai/codex/releases) <img src="!/beta.svg" alt="Beta" height="20">
 
 <p align="center">
