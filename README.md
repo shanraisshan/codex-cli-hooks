@@ -31,7 +31,7 @@ new hook addition changelogs only
 
 | Date | Hooks | Changes | Codex CLI Version | Demo |
 |------|:-----:|---------|:-----------------:|:----:|
-| Mar 28, 2026 | 5 | Added `PreToolUse` and `PostToolUse` | [v0.117.0](https://github.com/openai/codex/releases) | |
+| Mar 26, 2026 | 5 | Added `PreToolUse` and `PostToolUse` | [v0.117.0](https://github.com/openai/codex/releases) | |
 | Mar 20, 2026 | 3 | Added `UserPromptSubmit` | [v0.116.0](https://github.com/openai/codex/releases) | |
 | Mar 11, 2026 | 2 | Added `SessionStart` and `Stop` | [v0.115.0](https://github.com/openai/codex/releases) | |
 
