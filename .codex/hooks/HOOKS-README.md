@@ -3,16 +3,19 @@ Contains all the details, scripts, and instructions for the Codex CLI hooks.
 
 ## Hook Events Overview
 
-Codex CLI provides **3 hooks** via hooks.json:
+Codex CLI provides **5 hooks** via hooks.json:
 
 | # | Hook | Event Type | Config File | Description |
 |:-:|------|------------|-------------|-------------|
 | 1 | `SessionStart` | `SessionStart` | `hooks.json` | Runs once at session start — injects context + plays sound |
-| 2 | `Stop` | `stop` | `hooks.json` | Runs when the session ends — plays sound |
-| 3 | `UserPromptSubmit` | `UserPromptSubmit` | `hooks.json` | Runs when the user submits a prompt — plays sound |
+| 2 | `PreToolUse` | `PreToolUse` | `hooks.json` | Runs before a tool executes — plays sound |
+| 3 | `PostToolUse` | `PostToolUse` | `hooks.json` | Runs after a tool completes — plays sound |
+| 4 | `Stop` | `stop` | `hooks.json` | Runs when the session ends — plays sound |
+| 5 | `UserPromptSubmit` | `UserPromptSubmit` | `hooks.json` | Runs when the user submits a prompt — plays sound |
 
-> Hooks 1 and 2 require **Codex CLI v0.114.0+** with the hooks engine enabled.
-> Hook 3 requires **Codex CLI v0.116.0+** with the hooks engine enabled:
+> Hooks 1 and 4 require **Codex CLI v0.114.0+** with the hooks engine enabled.
+> Hooks 2 and 3 require **Codex CLI v0.117.0+** with the hooks engine enabled.
+> Hook 5 requires **Codex CLI v0.116.0+** with the hooks engine enabled:
 > ```bash
 > codex -c features.codex_hooks=true
 > ```
@@ -22,6 +25,8 @@ Codex CLI provides **3 hooks** via hooks.json:
 All hooks (hooks.json) are called with `--hook` flag:
 ```
 python3 .codex/hooks/scripts/hooks.py --hook SessionStart
+python3 .codex/hooks/scripts/hooks.py --hook PreToolUse
+python3 .codex/hooks/scripts/hooks.py --hook PostToolUse
 python3 .codex/hooks/scripts/hooks.py --hook Stop
 python3 .codex/hooks/scripts/hooks.py --hook UserPromptSubmit
 ```
@@ -61,7 +66,7 @@ The hook script automatically detects and uses the appropriate audio player for 
 
 There are **two** configuration files:
 
-1. **`.codex/hooks.json`** — Registers `SessionStart`, `Stop`, and `UserPromptSubmit` hooks
+1. **`.codex/hooks.json`** — Registers `SessionStart`, `PreToolUse`, `PostToolUse`, `Stop`, and `UserPromptSubmit` hooks
 2. **`.codex/hooks/config/hooks-config.json`** — Enable/disable individual hooks and logging
 
 #### hooks.json
@@ -74,6 +79,22 @@ There are **two** configuration files:
         "type": "shell",
         "command": "python3 .codex/hooks/scripts/hooks.py --hook SessionStart",
         "statusMessage": "Initializing session hooks...",
+        "timeout": 10
+      }
+    ],
+    "PreToolUse": [
+      {
+        "type": "shell",
+        "command": "python3 .codex/hooks/scripts/hooks.py --hook PreToolUse",
+        "statusMessage": "Running pre-tool-use hook...",
+        "timeout": 10
+      }
+    ],
+    "PostToolUse": [
+      {
+        "type": "shell",
+        "command": "python3 .codex/hooks/scripts/hooks.py --hook PostToolUse",
+        "statusMessage": "Running post-tool-use hook...",
         "timeout": 10
       }
     ],
@@ -105,6 +126,8 @@ Edit `.codex/hooks/config/hooks-config.json`:
 ```json
 {
   "disableSessionStartHook": false,
+  "disablePreToolUseHook": false,
+  "disablePostToolUseHook": false,
   "disableStopHook": false,
   "disableUserPromptSubmitHook": false,
   "disableLogging": true
@@ -113,6 +136,8 @@ Edit `.codex/hooks/config/hooks-config.json`:
 
 **Configuration Options:**
 - `disableSessionStartHook`: Set to `true` to disable the session start context injection and sound
+- `disablePreToolUseHook`: Set to `true` to disable the pre-tool-use sound
+- `disablePostToolUseHook`: Set to `true` to disable the post-tool-use sound
 - `disableStopHook`: Set to `true` to disable the session stop sound
 - `disableUserPromptSubmitHook`: Set to `true` to disable the user prompt submit sound
 - `disableLogging`: Set to `true` to disable logging hook events to `.codex/hooks/logs/hooks-log.jsonl`
@@ -133,6 +158,8 @@ Create or edit `.codex/hooks/config/hooks-config.local.json` for personal prefer
 ```json
 {
   "disableSessionStartHook": false,
+  "disablePreToolUseHook": false,
+  "disablePostToolUseHook": false,
   "disableStopHook": true,
   "disableUserPromptSubmitHook": false,
   "disableLogging": true

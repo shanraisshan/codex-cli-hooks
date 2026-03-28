@@ -2,7 +2,7 @@
 """
 Tests for Codex CLI Hook Handler
 =================================
-Tests all 3 hooks: SessionStart, Stop, and UserPromptSubmit.
+Tests all 5 hooks: SessionStart, PreToolUse, PostToolUse, Stop, and UserPromptSubmit.
 Run with: python3 -m pytest tests/test_hooks.py -v
 """
 
@@ -39,6 +39,18 @@ class TestParseArgs(unittest.TestCase):
         self.assertEqual(event_type, "Stop")
         self.assertEqual(input_data, {"type": "Stop"})
 
+    def test_pre_tool_use_hook_flag(self):
+        """hooks.json: --hook PreToolUse."""
+        event_type, input_data = hooks.parse_args(["--hook", "PreToolUse"])
+        self.assertEqual(event_type, "PreToolUse")
+        self.assertEqual(input_data, {"type": "PreToolUse"})
+
+    def test_post_tool_use_hook_flag(self):
+        """hooks.json: --hook PostToolUse."""
+        event_type, input_data = hooks.parse_args(["--hook", "PostToolUse"])
+        self.assertEqual(event_type, "PostToolUse")
+        self.assertEqual(input_data, {"type": "PostToolUse"})
+
     def test_UserPromptSubmit_hook_flag(self):
         """hooks.json: --hook UserPromptSubmit."""
         event_type, input_data = hooks.parse_args(["--hook", "UserPromptSubmit"])
@@ -67,6 +79,12 @@ class TestHookSoundMap(unittest.TestCase):
     def test_session_stop_mapping(self):
         self.assertIn("Stop", hooks.HOOK_SOUND_MAP)
 
+    def test_pre_tool_use_mapping(self):
+        self.assertIn("PreToolUse", hooks.HOOK_SOUND_MAP)
+
+    def test_post_tool_use_mapping(self):
+        self.assertIn("PostToolUse", hooks.HOOK_SOUND_MAP)
+
     def test_UserPromptSubmit_mapping(self):
         self.assertIn("UserPromptSubmit", hooks.HOOK_SOUND_MAP)
 
@@ -82,6 +100,12 @@ class TestHookConfigMap(unittest.TestCase):
 
     def test_session_stop_config_key(self):
         self.assertEqual(hooks.HOOK_CONFIG_MAP["Stop"], "disableStopHook")
+
+    def test_pre_tool_use_config_key(self):
+        self.assertEqual(hooks.HOOK_CONFIG_MAP["PreToolUse"], "disablePreToolUseHook")
+
+    def test_post_tool_use_config_key(self):
+        self.assertEqual(hooks.HOOK_CONFIG_MAP["PostToolUse"], "disablePostToolUseHook")
 
     def test_UserPromptSubmit_config_key(self):
         self.assertEqual(hooks.HOOK_CONFIG_MAP["UserPromptSubmit"], "disableUserPromptSubmitHook")
@@ -101,6 +125,8 @@ class TestIsHookDisabled(unittest.TestCase):
         mock_load.return_value = (None, None)
         self.assertFalse(hooks.is_hook_disabled("SessionStart"))
         self.assertFalse(hooks.is_hook_disabled("Stop"))
+        self.assertFalse(hooks.is_hook_disabled("PreToolUse"))
+        self.assertFalse(hooks.is_hook_disabled("PostToolUse"))
         self.assertFalse(hooks.is_hook_disabled("UserPromptSubmit"))
 
     @patch("hooks.load_config")
@@ -112,6 +138,16 @@ class TestIsHookDisabled(unittest.TestCase):
     def test_session_stop_disabled_in_default_config(self, mock_load):
         mock_load.return_value = (None, {"disableStopHook": True})
         self.assertTrue(hooks.is_hook_disabled("Stop"))
+
+    @patch("hooks.load_config")
+    def test_pre_tool_use_disabled_in_default_config(self, mock_load):
+        mock_load.return_value = (None, {"disablePreToolUseHook": True})
+        self.assertTrue(hooks.is_hook_disabled("PreToolUse"))
+
+    @patch("hooks.load_config")
+    def test_post_tool_use_disabled_in_default_config(self, mock_load):
+        mock_load.return_value = (None, {"disablePostToolUseHook": True})
+        self.assertTrue(hooks.is_hook_disabled("PostToolUse"))
 
     @patch("hooks.load_config")
     def test_UserPromptSubmit_disabled_in_default_config(self, mock_load):
@@ -240,6 +276,26 @@ class TestMainIntegration(unittest.TestCase):
                 hooks.main()
             self.assertEqual(ctx.exception.code, 0)
             mock_play.assert_called_once_with("Stop")
+
+    @patch("hooks.play_sound", return_value=True)
+    @patch("hooks.is_hook_disabled", return_value=False)
+    @patch("hooks.log_hook_data")
+    def test_pre_tool_use_plays_sound(self, mock_log, mock_disabled, mock_play):
+        with patch("sys.argv", ["hooks.py", "--hook", "PreToolUse"]):
+            with self.assertRaises(SystemExit) as ctx:
+                hooks.main()
+            self.assertEqual(ctx.exception.code, 0)
+            mock_play.assert_called_once_with("PreToolUse")
+
+    @patch("hooks.play_sound", return_value=True)
+    @patch("hooks.is_hook_disabled", return_value=False)
+    @patch("hooks.log_hook_data")
+    def test_post_tool_use_plays_sound(self, mock_log, mock_disabled, mock_play):
+        with patch("sys.argv", ["hooks.py", "--hook", "PostToolUse"]):
+            with self.assertRaises(SystemExit) as ctx:
+                hooks.main()
+            self.assertEqual(ctx.exception.code, 0)
+            mock_play.assert_called_once_with("PostToolUse")
 
     @patch("hooks.play_sound", return_value=True)
     @patch("hooks.is_hook_disabled", return_value=False)
