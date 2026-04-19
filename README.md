@@ -47,3 +47,13 @@ new hook addition changelogs only
 ## Other Repos
 
 <a href="https://github.com/shanraisshan/claude-code-hooks"><img src="!/claude-speaking.svg" alt="Claude Code Hooks" width="40" height="40" align="center"></a> <a href="https://github.com/shanraisshan/claude-code-hooks"><strong>claude-code-hooks</strong></a> · <a href="https://github.com/shanraisshan/codex-cli-best-practice"><img src="!/codex-jumping.svg" alt="Codex CLI Best Practice" width="40" height="40" align="center"></a> <a href="https://github.com/shanraisshan/codex-cli-best-practice"><strong>codex-cli-best-practice</strong></a> · <a href="https://github.com/shanraisshan/claude-code-best-practice"><img src="!/claude-jumping.svg" alt="Claude Code Best Practice" width="40" height="40" align="center"></a> <a href="https://github.com/shanraisshan/claude-code-best-practice"><strong>claude-code-best-practice</strong></a>
+
+<p align="center">
+  <img src="!/codex-jumping.svg" alt="section divider" width="60" height="50">
+</p>
+
+## <img src="!/tags/sponsor-heart.svg" width="22" height="22" align="center"> Sponsor My Work
+
+If you like my work, buy me a doodh patti 🍵 on
+
+<a href="https://buy.polar.sh/polar_cl_fTn59g14xsMqJdXnPYtPmHVTdm6qnrNMnhXuB2JZJDL"><img src="!/tags/polar.svg" alt="Polar" width="40" height="40" align="center"></a> <a href="https://buy.polar.sh/polar_cl_fTn59g14xsMqJdXnPYtPmHVTdm6qnrNMnhXuB2JZJDL"><strong>Polar</strong></a>
