@@ -1,5 +1,5 @@
 # Codex CLI Hooks
-[![Hooks](https://img.shields.io/badge/supports-5%20hooks-white?style=flat&labelColor=555)](.codex/hooks/HOOKS-README.md) [![Version](https://img.shields.io/badge/updated%20with%20Codex%20CLI-v0.121.0%20(Apr%2019%2C%202026%201%3A55%20PM%20PKT)-white?style=flat&labelColor=555)](https://github.com/openai/codex/releases) [![Stars](https://img.shields.io/github/stars/shanraisshan/codex-cli-hooks?style=flat&label=%E2%98%85&labelColor=555&color=white)](https://github.com/shanraisshan/codex-cli-hooks/stargazers) <img src="!/beta.svg" alt="Beta" height="20">
+[![Hooks](https://img.shields.io/badge/supports-6%20hooks-white?style=flat&labelColor=555)](.codex/hooks/HOOKS-README.md) [![Version](https://img.shields.io/badge/updated%20with%20Codex%20CLI-v0.121.0%20(Apr%2019%2C%202026%201%3A55%20PM%20PKT)-white?style=flat&labelColor=555)](https://github.com/openai/codex/releases) [![Stars](https://img.shields.io/github/stars/shanraisshan/codex-cli-hooks?style=flat&label=%E2%98%85&labelColor=555&color=white)](https://github.com/shanraisshan/codex-cli-hooks/stargazers)
 
 <p align="center">
   <img src="!/codex-speaking.svg" alt="Codex CLI mascot speaking" width="176" height="158">
@@ -23,7 +23,7 @@
 
 ![How to Use](!/how-to-use.svg)
 
-**Step 1.** Start Codex CLI with the hooks engine <img src="!/beta.svg" alt="Beta" height="16"> enabled:
+**Step 1.** Start Codex CLI with the hooks engine enabled:
 ```bash
 codex -c features.codex_hooks=true
 ```
@@ -35,6 +35,7 @@ new hook addition changelogs only
 
 | Date | Hooks | Changes | Codex CLI Version | Demo |
 |------|:-----:|---------|:-----------------:|:----:|
+| Apr 26, 2026 | 6 | Added `PermissionRequest` | [v0.122.0](https://github.com/openai/codex/releases) | |
 | Mar 26, 2026 | 5 | Added `PreToolUse` and `PostToolUse` | [v0.117.0](https://github.com/openai/codex/releases) | |
 | Mar 20, 2026 | 3 | Added `UserPromptSubmit` | [v0.116.0](https://github.com/openai/codex/releases) | |
 | Mar 11, 2026 | 2 | Added `SessionStart` and `Stop` | [v0.115.0](https://github.com/openai/codex/releases) | |
@@ -50,7 +51,30 @@ new hook addition changelogs only
 
 ## Other Repos
 
-<a href="https://github.com/shanraisshan/claude-code-hooks"><img src="!/claude-speaking.svg" alt="Claude Code Hooks" width="40" height="40" align="center"></a> <a href="https://github.com/shanraisshan/claude-code-hooks"><strong>claude-code-hooks</strong></a> · <a href="https://github.com/shanraisshan/codex-cli-best-practice"><img src="!/codex-jumping.svg" alt="Codex CLI Best Practice" width="40" height="40" align="center"></a> <a href="https://github.com/shanraisshan/codex-cli-best-practice"><strong>codex-cli-best-practice</strong></a> · <a href="https://github.com/shanraisshan/claude-code-best-practice"><img src="!/claude-jumping.svg" alt="Claude Code Best Practice" width="40" height="40" align="center"></a> <a href="https://github.com/shanraisshan/claude-code-best-practice"><strong>claude-code-best-practice</strong></a>
+<table>
+<tr>
+<td align="center" width="140">
+  <a href="https://github.com/shanraisshan/gemini-cli-hooks"><img src="!/gemini-mascot.svg" alt="Gemini CLI Hooks" width="64" height="64"></a><br>
+  <a href="https://github.com/shanraisshan/gemini-cli-hooks"><strong>Gemini CLI<br>Hooks</strong></a>
+</td>
+<td align="center" width="140">
+  <a href="https://github.com/shanraisshan/gemini-cli-best-practice"><img src="!/gemini-jumping.svg" alt="Gemini CLI Best Practice" width="64" height="64"></a><br>
+  <a href="https://github.com/shanraisshan/gemini-cli-best-practice"><strong>Gemini CLI<br>Best Practice</strong></a>
+</td>
+<td align="center" width="140">
+  <a href="https://github.com/shanraisshan/claude-code-best-practice"><img src="!/claude-jumping.svg" alt="Claude Code Best Practice" width="64" height="64"></a><br>
+  <a href="https://github.com/shanraisshan/claude-code-best-practice"><strong>Claude Code<br>Best Practice</strong></a>
+</td>
+<td align="center" width="140">
+  <a href="https://github.com/shanraisshan/claude-code-hooks"><img src="!/claude-speaking.svg" alt="Claude Code Hooks" width="64" height="64"></a><br>
+  <a href="https://github.com/shanraisshan/claude-code-hooks"><strong>Claude Code<br>Hooks</strong></a>
+</td>
+<td align="center" width="140">
+  <a href="https://github.com/shanraisshan/codex-cli-best-practice"><img src="!/codex-jumping.svg" alt="Codex CLI Best Practice" width="64" height="64"></a><br>
+  <a href="https://github.com/shanraisshan/codex-cli-best-practice"><strong>Codex CLI<br>Best Practice</strong></a>
+</td>
+</tr>
+</table>
 
 <p align="center">
   <img src="!/codex-jumping.svg" alt="section divider" width="60" height="50">
