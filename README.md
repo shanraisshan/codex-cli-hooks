@@ -1,5 +1,5 @@
 # Codex CLI Hooks
-[![Hooks](https://img.shields.io/badge/supports-6%20hooks-white?style=flat&labelColor=555)](.codex/hooks/HOOKS-README.md) [![Version](https://img.shields.io/badge/updated%20with%20Codex%20CLI-v0.121.0%20(Apr%2019%2C%202026%201%3A55%20PM%20PKT)-white?style=flat&labelColor=555)](https://github.com/openai/codex/releases) [![Stars](https://img.shields.io/github/stars/shanraisshan/codex-cli-hooks?style=flat&label=%E2%98%85&labelColor=555&color=white)](https://github.com/shanraisshan/codex-cli-hooks/stargazers)
+[![Hooks](https://img.shields.io/badge/supports-6%20hooks-white?style=flat&labelColor=555)](.codex/hooks/HOOKS-README.md) [![Version](https://img.shields.io/badge/updated%20with%20Codex%20CLI-v0.123.0%20(Apr%2026%2C%202026%204%3A42%20PM%20PKT)-white?style=flat&labelColor=555)](https://github.com/openai/codex/releases) [![Stars](https://img.shields.io/github/stars/shanraisshan/codex-cli-hooks?style=flat&label=%E2%98%85&labelColor=555&color=white)](https://github.com/shanraisshan/codex-cli-hooks/stargazers)
 
 <p align="center">
   <img src="!/codex-speaking.svg" alt="Codex CLI mascot speaking" width="176" height="158">
