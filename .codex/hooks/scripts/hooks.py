@@ -136,7 +136,7 @@ def play_sound(sound_name):
                 if is_windows:
                     if winsound:
                         winsound.PlaySound(str(file_path),
-                                         winsound.SND_FILENAME | winsound.SND_NODEFAULT)
+                                         winsound.SND_FILENAME | winsound.SND_ASYNC | winsound.SND_NODEFAULT)
                         return True
                     else:
                         return False
